@@ -19,7 +19,7 @@ smbclient:
 smbmap:  
 ![smbmap](/boxes/htb/active/smbmap.PNG)
 
-smbmap reveals a file share called Replication with read only permissions. smbmap can be used to list the contents of the Replication directory:
+smbmap reveals a file share called Replication with read only permissions. Smbmap can be used to list the contents of the Replication directory:
 ```
 smbmap -R Replication -H 10.10.10.100
 ```
@@ -31,18 +31,18 @@ To download the file we use:
 ```
 smbmap -R Replication -H 10.10.10.100 -A Groups.xml -q
 ```
-Taking a look at the Groups.xml file, an account `SVC_TGS` and `edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH` encyrpted password was found. This password is encrypted with a known key:
-```
-https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be
-![msftknownkey](image)
-```
-```
+Taking a look at the Groups.xml file, an account `SVC_TGS` and a encrypted password `edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH` was found. This password is encrypted with a known key:
+
+https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be  
+![msftknownkey](/boxes/htb/active/aes key.jpg)
+
+
 ![groups.xmlhash](/boxes/htb/active/grouphash.png)
-```
-To decrpyt the password, we use gpp-decrpyt:
-```
+
+To decrpyt the password, we use gpp-decrpyt:  
+
 ![gppdecrypt](/boxes/htb/active/gppdecrypt.png)
-```
+
 The decrypted hash is `GPPstillStandingStrong2k18`
 Using the credentials we found we enumerate more shares
 ```
