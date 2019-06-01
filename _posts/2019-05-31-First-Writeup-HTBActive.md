@@ -3,10 +3,10 @@ layout: post
 title: My first writeup! Hack The Box, Active
 tags: [hackthebox, Active Directory, Bloodhound, hashcat, GPP]
 ---
-![logo](/boxes/htb/active/activeDirectory.png)
+![logo](/boxes/htb/active/activeDirectory.PNG)
 
 ### i. Port Scan
-![nmap portscan](/boxes/htb/active/nmap.png)
+![nmap portscan](/boxes/htb/active/nmap.PNG)
 ### ii. Enumeration
 SMB ports were listed open on the nmap scan. Let's check if any shares are available with smbclient and smbmap.
 ```
@@ -14,10 +14,10 @@ smbclient -L 10.10.10.100
 smbmap -H 10.10.10.100
 ```
 smbclient:
-![smbclient](/boxes/htb/active/smbclient.png)
+![smbclient](/boxes/htb/active/smbclient.PNG)
 
 smbmap:
-![smbmap](/boxes/htb/active/smbmap.png)
+![smbmap](/boxes/htb/active/smbmap.PNG)
 
 smbmap reveals a file share called Replication with read only permissions. Smbmap can be used to list the contents of the Replication directory:
 ```
@@ -25,7 +25,7 @@ smbmap -R Replication -H 10.10.10.100
 ```
 Looking through the contents of the Replication directory there is a file called Groups.xml. This is a group policy file where local account information is typically stored for older Active Directory implementations.
 
-![ReplicationFiles](/boxes/htb/active/groupsxml.png)
+![ReplicationFiles](/boxes/htb/active/groupsxml.PNG)
 
 To download the file we use:
 ```
