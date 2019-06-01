@@ -13,10 +13,10 @@ SMB ports were listed open on the nmap scan. Let's check if any shares are avail
 smbclient -L 10.10.10.100
 smbmap -H 10.10.10.100
 ```
-smbclient: 
+smbclient:   
 ![smbclient](/boxes/htb/active/smbclient.PNG)
 
-smbmap: 
+smbmap:  
 ![smbmap](/boxes/htb/active/smbmap.PNG)
 
 smbmap reveals a file share called Replication with read only permissions. smbmap can be used to list the contents of the Replication directory:
