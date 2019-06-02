@@ -33,7 +33,7 @@ smbmap -R Replication -H 10.10.10.100 -A Groups.xml -q
 ```
 Opening and reading the Groups.xml file, an account `SVC_TGS` and a encrypted password `edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH` was found. 
 
-![groupsxmlhash](/boxes/htb/active/grouphash.png)
+![groupsxmlhash](/boxes/htb/active/grouphash.PNG)
 
 
 The password is encrypted with a known key:
@@ -43,7 +43,7 @@ https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-
 
 To decrpyt the password, we use gpp-decrpyt:  
 
-![gppdecrypt](/boxes/htb/active/gppdecrypt.png)
+![gppdecrypt](/boxes/htb/active/gppdecrypt.PNG)
 
 The decrypted hash is `GPPstillStandingStrong2k18`. Using the credentials we found we enumerate more shares.
 ```
