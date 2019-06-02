@@ -19,7 +19,7 @@ smbclient:
 smbmap:  
 ![smbmap](/boxes/htb/active/smbmap.PNG)
 
-smbmap reveals a file share called Replication with read only permissions. Smbmap can be used to list the contents of the Replication directory:
+Smbmap reveals a file share called Replication with read only permissions. Smbmap can be used to list the contents of the Replication directory:
 ```
 smbmap -R Replication -H 10.10.10.100
 ```
@@ -31,51 +31,57 @@ To download the file we use:
 ```
 smbmap -R Replication -H 10.10.10.100 -A Groups.xml -q
 ```
-Taking a look at the Groups.xml file, an account `SVC_TGS` and a encrypted password `edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH` was found. This password is encrypted with a known key:
+Opening and reading the Groups.xml file, an account `SVC_TGS` and a encrypted password `edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH` was found. 
+
+![groupsxmlhash](/boxes/htb/active/grouphash.png)
+
+
+The password is encrypted with a known key:
 
 https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be  
 ![msftknownkey](/boxes/htb/active/aes key.jpg)
-
-
-![groups.xmlhash](/boxes/htb/active/grouphash.png)
 
 To decrpyt the password, we use gpp-decrpyt:  
 
 ![gppdecrypt](/boxes/htb/active/gppdecrypt.png)
 
-The decrypted hash is `GPPstillStandingStrong2k18`
-Using the credentials we found we enumerate more shares
+The decrypted hash is `GPPstillStandingStrong2k18`. Using the credentials we found we enumerate more shares.
 ```
 smbmap -d active.htb -u svc_tgs -p GPPstillStandingStrong2k18 -H 10.10.10.100
 ```
-![moreshares](/boxes/htb/active/)
+![moreshares](/boxes/htb/active/moreshares.PNG)
 
-The user flag was found under `SVC_TGS\Desktop\`
+Logging in and enumerating these shares lead to the user flag under the `SVC_TGS\Desktop\` directory.
 
-Now that we have credentials, let's Bloodhound the box. We switch to a windows vm and get a command prompt with the following command:
+Now that we have credentials, let's use Bloodhound on the box. We switch to a Windows VM and run the following command:
 ```
 runas /netonly /user:active.htb\svc_tgs cmd
 ```
-Make sure to check your DNS settings on your network adapter and set it to 10.10.10.100. Run sharphound with the following command to gather information:
+Make sure to check your DNS settings on your network adapter and set it to 10.10.10.100. 
+
+Run sharphound with the following command to gather information to use in Bloodhound:
 ```
 sharphound.exe -c all -d active.htb --domaincontroller 10.10.10.100
 ```
-We then drag and drop the zip file created from sharphound into the user interface of Bloodhound on our Kali machine. Checking for domain admin did not reveal anything. Checking for kerberoasting, the user `ADMINISTRATOR` is available for this attack.
-![kerberoasting](image)
+A zip file should have been created with the infomartion to import into Bloodhound. Drag and drop the zip file created from into the user interface of Bloodhound to import the information. Checking for domain admin did not reveal anything. Checking for kerberoasting, the user `ADMINISTRATOR` is available for this attack.
+![kerberoasting](/boxes/htb/active/kerberoasting.PNG)
+
 Using GetUserSPN.py from impacket we will grab the hash of `ADMINISTRATOR`
 ```
 GetUserSPN.py -request -dc-ip 10.10.10.100 active.htb/svc_tgs
 ```
-![adminhash](image)
+![adminhash](/boxes/htb/active/getUserSPN.PNG)
+
 We copy the hash into a file and use hashcat to crack the hash via the following command:
 ```
 hashcat -m 13100 hash.txt rockyou.txt 
 ```
-![crackedhash](image)
+![crackedhash](/boxes/htb/active/adminpw.PNG)
+
 The Administrator password is: `Ticketmaster1968`
 
 Now we can use psexec and log into the box and get the root flag
 ```
 psexec.py active.htb/Administrator@10.10.10.100
 ```
-![rootflag](image)
+![rootflag](/boxes/htb/active/rootflag.PNG)
