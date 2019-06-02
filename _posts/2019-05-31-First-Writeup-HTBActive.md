@@ -1,7 +1,7 @@
 ---
 layout: post
 title: My first writeup! Hack The Box, Active
-tags: [hackthebox, Active Directory, Bloodhound, hashcat, GPP]
+tags: [Hack The Box, Active Directory, Bloodhound, Hashcat, GPP]
 ---
 ![logo](/boxes/htb/active/activeDirectory.PNG)
 
