@@ -53,6 +53,8 @@ smbmap -d active.htb -u svc_tgs -p GPPstillStandingStrong2k18 -H 10.10.10.100
 
 Logging in and enumerating these shares led to the user flag under the `SVC_TGS\Desktop\` directory.
 
+### iii. Privilege Escalation
+
 Now that we have credentials, let's use Bloodhound on the box. We switch to a Windows VM and run the following command:
 ```
 runas /netonly /user:active.htb\svc_tgs cmd
