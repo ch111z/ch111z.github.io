@@ -45,7 +45,7 @@ To decrpyt the password, we use gpp-decrpyt:
 
 ![gppdecrypt](/boxes/htb/active/gppdecrypt.PNG)
 
-The decrypted hash is `GPPstillStandingStrong2k18`. Using the credentials we found we enumerate more shares.
+The decrypted ciphertext is `GPPstillStandingStrong2k18`. Using the credentials we found we enumerate more shares.
 ```
 smbmap -d active.htb -u svc_tgs -p GPPstillStandingStrong2k18 -H 10.10.10.100
 ```
