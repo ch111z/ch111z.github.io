@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Hack The Box, Access
-tags: [Hack The Box]
+tags: [Hack The Box, Windows, Impacket, Readpst]
 ---
 ![accesslogo](/boxes/htb/access/accessLogo.PNG)
 
