@@ -24,9 +24,7 @@ PORT   STATE SERVICE VERSION
 ### ii. Enumeration
 There are three services that are available to enumerate. To start off, we take a look at the http/website on port 80.  
 ![website](/boxes/htb/access/website.PNG)   
-After enumerating this service nothing was found. Next up is port 23 telnet. 
-
-Connecting to telnet gives us a prompt for credentials. Trying a few common credentials didn't work. We will put this on the backburner for now.
+After enumerating this service nothing was found. Next up is port 23 telnet. Connecting to telnet gives us a prompt for credentials. Trying a few common credentials didn't work. We will put this on the backburner for now.
 
 Let's take a look at port 21 the FTP service. Nmap indicated anonymous FTP login was allowed and we were able to login and enumerate the FTP server.  
 ![ftpdirectories](/boxes/htb/access/ftpdir.PNG)    
@@ -35,8 +33,9 @@ A file backup.mdb was found in the Backups directory and we download a copy of i
 ![backupfile](/boxes/htb/access/backups.PNG)  
 
 In the Engineer folder there is a file called Access Control.zip and we also transfer it to our machine.  
-![accesscontrolfile](/boxes/htb/access/engineer.PNG)  
-Trying to unzip the Access Control.zip file we run into password protection. We'll add this to the backburner list and look at the backup.mdb file. The backup.mdb file is a Microsoft Access Database. We transfer it to a Windows virtual machine and open it up.
+![accesscontrolfile](/boxes/htb/access/engineer.PNG)
+  
+Attempting to unzip the Access Control.zip file we run into password protection. We'll add this to the backburner list and look at the backup.mdb file. The backup.mdb file is a Microsoft Access Database. We transfer it to a Windows virtual machine and open it up.
 
 Within the auth_user table credentials were found:
 
